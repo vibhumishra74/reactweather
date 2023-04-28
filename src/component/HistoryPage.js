@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { Card, Table } from "antd"
+import { Card, Table,Input } from "antd"
 import './history.css'
-  import { useMemo } from "react"
+  import { useEffect, useMemo,useState } from "react"
   
   const columns= [
       {
@@ -42,10 +42,15 @@ import './history.css'
   
   const RecentSearches = () => {
     const navigate = useNavigate();
+
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filteredData, setFilteredData] = useState([]);
+
+
     const storedData = JSON.parse(localStorage.getItem('weatherData') || '[]');
   
       const tableData = useMemo(()=>{
-          return storedData.map((element, idx) => {
+          return filteredData.map((element, idx) => {
                return {
                   key: (idx + 1).toString(),
                   city: element?.data?.name,
@@ -56,13 +61,34 @@ import './history.css'
                   icon:element?.data?.weather && element?.data?.weather[0]?.icon
               }
           })
-      }, [storedData])
+      }, [filteredData])
   
+      useEffect(() => {
+        if (searchQuery === '') {
+            setFilteredData(storedData);
+        } else {
+            const lowerCaseQuery = searchQuery.toLowerCase();
+            const filtered = storedData.filter((element) => {
+                return element?.data?.name?.toLowerCase().includes(lowerCaseQuery);
+            });
+            setFilteredData(filtered);
+        }
+    }, [searchQuery, storedData]);
+    
+
       return <>
-          <h4 style={{margin: '30px 0'}}>Recent Searches</h4>
+          <h4 style={{margin: '30px 0'}}>Recent History</h4>
           <button className='button' style={{margin:'10px'}} onClick={() => {
     navigate('/');
   }}>Home</button>
+            <div style={{ marginBottom: 16 }}>
+    <Input.Search
+        placeholder="Search by city name"
+        onChange={(e) => setSearchQuery(e.target.value)}
+        style={{ width: 200 }}
+    />
+</div>
+
           <Table className="recent-searches-table" columns={columns} dataSource={tableData} pagination={false}  scroll={{ x: true }}/>
       </>
   }
