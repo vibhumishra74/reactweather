@@ -1,0 +1,25 @@
+.recent-searches-table {
+    margin-top: 30px;
+  }
+
+  .recent-searches-table {
+    overflow-x: auto;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .recent-searches-table {
+      overflow-x: scroll;
+    }
+    .ant-table-thead > tr > th,
+    .ant-table-tbody > tr > td {
+      white-space: nowrap;
+    }
+  }
+  
+  
+  @media (max-width: 576px) {
+    .recent-searches-table {
+      font-size: 12px;
+    }
+  }
+  
