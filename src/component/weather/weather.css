@@ -28,7 +28,7 @@ body {
   margin-bottom: 1rem;
 }
 
-.button {
+.weather_app .button {
   padding: 0.5rem 1rem;
   border-radius: 5px;
   background-color: #4CAF50;
@@ -39,7 +39,7 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.button:hover {
+.weather_app .button:hover {
   background-color: #3E8E41;
 }
 
@@ -64,6 +64,15 @@ body {
   margin-bottom: 1rem;
 }
 
+.card {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+  padding: 20px;
+  background-color: #fff;
+}
+
 .forecast {
   margin-top: 2rem;
 }
@@ -81,6 +90,22 @@ body {
 }
 
 .forecast-item {
-  margin-bottom: 0.5rem;
-  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+
+}
+
+.forecast-icon {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.forecast-description {
+  margin: 0;
+  font-size: 14px;
+  color: #999;
 }

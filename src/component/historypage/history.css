@@ -5,6 +5,22 @@
   .recent-searches-table {
     overflow-x: auto;
   }
+
+  
+.history_page .button {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.history_page .button:hover {
+  background-color: #3E8E41;
+}
   
   @media screen and (max-width: 768px) {
     .recent-searches-table {

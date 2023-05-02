@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import './weather.css'
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+import './weather.css'
 
 const WeatherApp = () => {
   const [city, setCity] = useState('');
@@ -19,7 +20,7 @@ const WeatherApp = () => {
   };
 
   useEffect(()=>{
-    handleFetchWeather()
+    city.length >0 && handleFetchWeather()
   },[unit])
 
   const addToLocalStorage = (data) => {
@@ -35,26 +36,25 @@ const WeatherApp = () => {
     }
   };
   
-  
-
   const handleFetchWeather = async() => {
-    await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=${unit}&appid=${API_KEY}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setWeatherData(data);
-        addToLocalStorage(data)
-        // console.log('data>>',data)
-        return fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${unit}&appid=${API_KEY}`);
-        // return fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${data?.coord?.lat}&lon=${data?.coord?.lon}&units=${unit}&appid=${API_KEY}`);
-      })
-      .then((response) => response.json())
-      .then((data) =>{
-        // console.log('data>>22',data)
-        setWeatherData((prevData) => ({ ...prevData, forecast: data }))
+    try {
+      const response = await axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=${unit}&appid=${API_KEY}`);
+      const data = response.data;
+      setWeatherData(data);
+      data.cod === 200 && addToLocalStorage(data);
+  
+      const forecastResponse = await axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${unit}&appid=${API_KEY}`);
+
+        // const forecastResponse = await axios.get(`http://api.openweathermap.org/data/2.5/forecast?lat=${data?.coord?.lat}&lon=${data?.coord?.lon}&units=${unit}&appid=${API_KEY}`); 
+        // commented this because some times it give some error
+      
+        const forecastData = forecastResponse.data;
+      setWeatherData(prevData => ({ ...prevData, forecast: forecastData }));
+    } catch (error) {
+      console.log(error.message);
     }
-    )
-      .catch((error) => console.log(error));
   };
+ 
 
   return (
     <div className='weather_app'>
@@ -85,6 +85,7 @@ const WeatherApp = () => {
          {weatherData.forecast && weatherData.forecast.list && (
   <div>
     <h3 className='forecast-title'>7-day Forecast</h3>
+    <div className='card'>
     <ul className='forecast-list'>
       {weatherData.forecast.list
         .filter((forecast, index, array) => {
@@ -107,6 +108,7 @@ const WeatherApp = () => {
           </li>
         ))}
     </ul>
+    </div>
   </div>
 )}
 

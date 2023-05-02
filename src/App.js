@@ -1,8 +1,7 @@
-import logo from './logo.svg';
+import WeatherApp from './component/weather';
+import { Routes, Route } from 'react-router-dom';
+import HistoryPage from './component/historypage';
 import './App.css';
-import WeatherApp from './component/Weather';
-import { Routes, Route, Link } from 'react-router-dom';
-import HistoryPage from './component/HistoryPage';
 
 function App() {
   return (

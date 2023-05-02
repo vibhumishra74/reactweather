@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Card, Table,Input } from "antd"
+import { Table,Input } from "antd"
 import './history.css'
   import { useEffect, useMemo,useState } from "react"
   
@@ -73,10 +73,10 @@ import './history.css'
             });
             setFilteredData(filtered);
         }
-    }, [searchQuery, storedData]);
+    }, [searchQuery]);
     
 
-      return <>
+      return <div className="history_page">
           <h4 style={{margin: '30px 0'}}>Recent History</h4>
           <button className='button' style={{margin:'10px'}} onClick={() => {
     navigate('/');
@@ -90,7 +90,7 @@ import './history.css'
 </div>
 
           <Table className="recent-searches-table" columns={columns} dataSource={tableData} pagination={false}  scroll={{ x: true }}/>
-      </>
+      </div>
   }
   
   export default RecentSearches
